@@ -41,4 +41,8 @@ export class AppService {
     return this.http.put('/rest/order', order);
   }
 
+  clearOrders() {
+    return this.http.delete('rest/orders');
+  }
+
 }

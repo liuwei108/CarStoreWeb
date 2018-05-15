@@ -10,8 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class OrderRepository {
@@ -29,14 +31,18 @@ public class OrderRepository {
     }
 
     public int createOrder(Map order) {
+        String orderNum = UUID.randomUUID().toString();
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        String INSERT_SQL = "INSERT INTO ORDERS (userId, productId, amount) VALUES (?, ?, ?)";
+        String INSERT_SQL = "INSERT INTO ORDERS (userId, productId, orderNum, amount, orderTime) VALUES (?, ?, ?, ?, ?)";
         jdbc.update(connection -> {
             final PreparedStatement ps = connection.prepareStatement(INSERT_SQL,
                     Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, (int) order.get("userId"));
             ps.setInt(2, (int) order.get("productId"));
-            ps.setBigDecimal(3, (BigDecimal) order.get("amount"));
+            ps.setString(3, orderNum);
+            ps.setBigDecimal(4, (BigDecimal) order.get("amount"));
+            ps.setLong(5, (int) Instant.now().getEpochSecond());
+
             return ps;
         }, keyHolder);
         return keyHolder.getKey().intValue();
@@ -49,7 +55,11 @@ public class OrderRepository {
     }
 
     public List getOrders() {
-        return jdbc.queryForList("SELECT ORDERS.*, PRODUCT.name FROM ORDERS INNER JOIN PRODUCT ON (ORDERS.productId = PRODUCT.id) ORDER id DESC");
+        return jdbc.queryForList("SELECT ORDERS.*, PRODUCT.name FROM ORDERS INNER JOIN PRODUCT ON (ORDERS.productId = PRODUCT.id) ORDER BY id DESC");
+    }
+
+    public void clearOrders() {
+        jdbc.update("TRUNCATE TABLE ORDERS");
     }
 
     public Map getProduct(int id) {

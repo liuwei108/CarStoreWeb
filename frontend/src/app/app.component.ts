@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {AppService} from "./service/app.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -14,13 +15,16 @@ import {AppService} from "./service/app.service";
             <span><a mat-button routerLink="/app/orders"> My Orders </a></span>
           </div>
           <div fxFlex="20" fxLayoutAlign="end center">
-            <a mat-button routerLink="/app/login">
+            <a mat-button>
               <mat-icon>person</mat-icon>
               David
             </a>
-            <button mat-icon-button>
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">
               <mat-icon>settings</mat-icon>
             </button>
+            <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+              <button mat-menu-item (click)="reset()">reset</button>
+            </mat-menu>
           </div>
         </mat-toolbar>
       </nav>
@@ -35,7 +39,16 @@ import {AppService} from "./service/app.service";
 export class AppComponent {
   loading$: Observable<boolean>;
 
-  constructor(private as: AppService) {
+  constructor(private as: AppService,
+              private router: Router) {
     this.loading$ = this.as.getLoading();
+  }
+
+  reset() {
+    this.as.clearOrders().subscribe(
+      () => {
+        this.router.navigate(['/app/orders']);
+      }
+    );
   }
 }

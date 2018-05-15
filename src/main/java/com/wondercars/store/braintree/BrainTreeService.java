@@ -32,7 +32,7 @@ public class BrainTreeService {
 
     public Map createTransaction(Map<String, ?> payload) {
         //get the submitted nonce and amount
-        BigDecimal decimalAmount = new BigDecimal(payload.get("amount").toString());//BigDecimal.valueOf((Double) payload.get("amount"));
+        BigDecimal decimalAmount = new BigDecimal(payload.get("amount").toString());
         String nonce = (String) payload.get("paymentMethodNonce");
         int orderId = (Integer) payload.get("orderId");
         Map orderMap = orderRepo.findOrder(orderId);
@@ -42,7 +42,7 @@ public class BrainTreeService {
         }
         TransactionRequest request = new TransactionRequest()
                 .amount(amountInOrder)
-                //.orderId(String.valueOf(orderId)) // PayPal Blocking Duplicate Order IDs... unique orderId needed
+                .orderId(orderMap.get("orderNum").toString()) // PayPal Blocking Duplicate Order IDs... unique orderId needed
                 .paymentMethodNonce(nonce)
                 .customer()
                 .firstName("Drew")

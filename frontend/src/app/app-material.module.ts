@@ -11,7 +11,7 @@ import {
   MatGridListModule,
   MatIconModule,
   MatInputModule,
-  MatListModule,
+  MatListModule, MatMenuModule,
   MatTableModule,
   MatTabsModule,
   MatToolbarModule
@@ -33,6 +33,7 @@ import {
     MatTabsModule,
     MatTableModule,
     MatCheckboxModule,
+    MatMenuModule,
     MatButtonToggleModule,
   ],
   exports: [
@@ -49,6 +50,7 @@ import {
     MatTabsModule,
     MatTableModule,
     MatCheckboxModule,
+    MatMenuModule,
     MatButtonToggleModule,
   ],
   declarations: []

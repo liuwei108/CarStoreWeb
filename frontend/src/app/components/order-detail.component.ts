@@ -15,6 +15,7 @@ import {tap} from "rxjs/operators";
             <h3 matLine> {{ order.name }} </h3>
             <p matLine>
               <span> Total: {{order.amount | currency}} </span>
+              <span class="list">Time: {{ order.orderTime*1000 | date:'yyyy-MM-dd HH:mm z':'+0800' }}</span>
             </p>
           </mat-list-item>
         </mat-list>
@@ -27,6 +28,9 @@ import {tap} from "rxjs/operators";
   styles: [`
     .status {
       color: red;
+    }
+    .list {
+      display: block;
     }
   `]
 })

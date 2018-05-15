@@ -18,14 +18,15 @@ public class OrderController {
     public List getProducts() {
         return orderRepo.getProducts();
     }
+
     @GetMapping("/order/{id}")
     public Map getOrderById(@PathVariable String id) {
         return orderRepo.findOrder(Integer.parseInt(id));
     }
 
     @PostMapping("/order")
-    public int createOrder(@RequestBody Map map){
-        Map car = orderRepo.getProduct((int)map.get("id"));
+    public int createOrder(@RequestBody Map map) {
+        Map car = orderRepo.getProduct((int) map.get("id"));
         HashMap order = new HashMap();
         order.put("userId", 1); // assume user id is 1
         order.put("productId", car.get("id"));
@@ -34,7 +35,7 @@ public class OrderController {
     }
 
     @PutMapping("/order")
-    public int updateOrder(@RequestBody Map map){
+    public int updateOrder(@RequestBody Map map) {
         HashMap order = new HashMap();
         order.put("id", map.get("id")); // assume user id is 1
         order.put("status", map.get("status"));
@@ -46,4 +47,8 @@ public class OrderController {
         return orderRepo.getOrders();
     }
 
+    @DeleteMapping("/orders")
+    public void clearOrders() {
+        orderRepo.clearOrders();
+    }
 }

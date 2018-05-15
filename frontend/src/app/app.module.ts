@@ -22,6 +22,7 @@ const routes: Routes = [
   {
     path: 'app/orders',
     component: OrdersComponent,
+    runGuardsAndResolvers: 'always',
   },
   {
     path: 'app/order/:orderID',
@@ -44,7 +45,7 @@ const routes: Routes = [
     FlexLayoutModule,
     HttpClientModule,
     AppMaterialModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})
   ],
   providers: [AppService],
   bootstrap: [AppComponent]
