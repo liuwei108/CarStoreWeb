@@ -11,4 +11,5 @@ Demo web project for illustrating Paypal Express Checkout through Braintree SDK.
 > if port 8080 is used, change to other port number in *server.port*
 
 ### source code diagram
+
 ![diagram](https://raw.githubusercontent.com/liuwei108/CarStoreWeb/master/Diagram.png)
