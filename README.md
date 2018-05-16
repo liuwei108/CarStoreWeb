@@ -9,3 +9,6 @@ Demo web project for illustrating Paypal Express Checkout through Braintree SDK.
 3. run `java -jar carstore.jar --server.port=8080`
 4. accee http://localhost:8080
 > if port 8080 is used, change to other port number in *server.port*
+
+### source code diagram
+![diagram](https://raw.githubusercontent.com/liuwei108/CarStoreWeb/master/Diagram.png)
