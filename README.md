@@ -1,4 +1,4 @@
-# carstore
+# CarStoreWeb
 Demo web project for illustrating Paypal Express Checkout through Braintree SDK.
 
 [Live Demo](http://13.57.3.69/)
