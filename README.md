@@ -3,7 +3,10 @@ Demo web project for illustrating Paypal Express Checkout through Braintree SDK.
 
 [Live Demo](http://13.57.3.69/)
 
-## android integration demo
+Sandbox test account
+> buyer_1@paypalsandbox.com / 12345678
+
+## Android integration demo
 [CarStoreApp](https://github.com/liuwei108/CarStoreApp)
 
 ## Run this webapp on the local machine
