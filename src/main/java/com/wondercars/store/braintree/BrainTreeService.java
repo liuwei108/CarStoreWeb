@@ -23,18 +23,26 @@ public class BrainTreeService {
     private BraintreeGateway gateway;
 
     public BrainTreeService() {
+        // Construct gateway object on application start
         this.gateway = new BraintreeGateway(accessToken);
     }
 
+    /**
+     * Generate a client token
+     */
     public String generateClientToken() {
         return gateway.clientToken().generate();
     }
 
+    /**
+     * create a transaction using paymentMethodNonce submitted from client
+     */
     public Map createTransaction(Map<String, ?> payload) {
         //get the submitted nonce and amount
         BigDecimal decimalAmount = new BigDecimal(payload.get("amount").toString());
         String nonce = (String) payload.get("paymentMethodNonce");
         int orderId = (Integer) payload.get("orderId");
+        //get order detail from db by orderId
         Map orderMap = orderRepo.findOrder(orderId);
         BigDecimal amountInOrder = new BigDecimal(orderMap.get("amount").toString());
         if (amountInOrder.compareTo(decimalAmount) != 0) {
@@ -42,28 +50,29 @@ public class BrainTreeService {
         }
         TransactionRequest request = new TransactionRequest()
                 .amount(amountInOrder)
-                .orderId(orderMap.get("orderNum").toString()) // PayPal Blocking Duplicate Order IDs... unique orderId needed
+                // PayPal Blocking Duplicate Order IDs... unique orderId needed
+                .orderId(orderMap.get("orderNum").toString())
                 .paymentMethodNonce(nonce)
                 .customer()
-                .firstName("Drew")
-                .lastName("Smith")
-                .company("Braintree")
-                .phone("312-555-1234")
-                .fax("312-555-1235")
-                .website("http://www.example.com")
-                .email("drew@example.com")
-                .done()
+                    .firstName("Drew")
+                    .lastName("Smith")
+                    .company("Braintree")
+                    .phone("312-555-1234")
+                    .fax("312-555-1235")
+                    .website("http://www.example.com")
+                    .email("drew@example.com")
+                    .done()
                 .shippingAddress()
-                .firstName("Jen")
-                .lastName("Smith")
-                .company("Braintree")
-                .streetAddress("1 E 1st St")
-                .extendedAddress("Suite 403")
-                .locality("Bartlett")
-                .region("IL")
-                .postalCode("60103")
-                .countryCodeAlpha2("US")
-                .done()
+                    .firstName("Jen")
+                    .lastName("Smith")
+                    .company("Braintree")
+                    .streetAddress("1 E 1st St")
+                    .extendedAddress("Suite 403")
+                    .locality("Bartlett")
+                    .region("IL")
+                    .postalCode("60103")
+                    .countryCodeAlpha2("US")
+                    .done()
                 .options()
                 .submitForSettlement(true)
                 .done();
@@ -73,9 +82,7 @@ public class BrainTreeService {
         if (saleResult.isSuccess()) {
             Transaction transaction = saleResult.getTarget();
             System.out.println("Success! Transaction ID: " + transaction.getId());
-            /**
-             * here we need to update order status
-             */
+            // here we need to update order status
             Map map = new HashMap();
             map.put("id", orderId);
             map.put("status", "Paid");
@@ -90,6 +97,9 @@ public class BrainTreeService {
         }
     }
 
+    /**
+     * get transaction details by transaction id
+     */
     public Transaction getTransaction(String xaId) {
         Transaction transaction = null;
         try {

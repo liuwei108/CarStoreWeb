@@ -33,6 +33,12 @@ This demo uses:
 * H2 database
 * [Braintree Java library](https://github.com/braintree/braintree_java) 2.80.0
 
-## source code diagram
+## Source code diagram
+
+Usage of Braintree's Client JavaScript SDK is in 
+> /frontend/src/app/components/checkout.component.ts
+
+Usage of Braintree's Server Java Library is in
+> /src/main/java/com/wondercars/store/braintree/BrainTreeService.java
 
 ![diagram](https://raw.githubusercontent.com/liuwei108/CarStoreWeb/master/Diagram.png)
